@@ -1,0 +1,17 @@
+namespace: d_strobel
+name: windows
+version: 0.1.0
+readme: README.md
+authors:
+  - Dustin Strobel @d-strobel
+description: |
+  Ansible collection for Windows
+license_file: LICENSE
+tags:
+  - windows
+dependencies: {}
+repository: https://github.com/d-strobel/ansible-collection-windows
+documentation: https://github.com/d-strobel/ansible-collection-windows
+homepage: https://github.com/d-strobel/ansible-collection-windows
+issues: https://github.com/d-strobel/ansible-collection-windows/issues
+build_ignore: []
