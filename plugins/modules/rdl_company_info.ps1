@@ -8,16 +8,16 @@
 
 $spec = @{
     options             = @{
-        first_name     = @{ type = "str" }
-        last_name      = @{ type = "str" }
-        company        = @{ type = "str" }
-        country_region = @{ type = "str" }
-        email          = @{ type = "str" }
-        org_unit       = @{ type = "str" }
-        address        = @{ type = "str" }
-        postalcode     = @{ type = "str" }
-        city           = @{ type = "str" }
-        federal_state  = @{ type = "str" }
+        first_name     = @{ type = "str"; default = "" }
+        last_name      = @{ type = "str"; default = "" }
+        company        = @{ type = "str"; default = "" }
+        country_region = @{ type = "str"; default = "" }
+        email          = @{ type = "str"; default = "" }
+        org_unit       = @{ type = "str"; default = "" }
+        address        = @{ type = "str"; default = "" }
+        postal_code    = @{ type = "str"; default = "" }
+        city           = @{ type = "str"; default = "" }
+        federal_state  = @{ type = "str"; default = "" }
         state          = @{ type = "str"; choices = "absent", "present"; default = "present" }
     }
     supports_check_mode = $false
@@ -33,7 +33,7 @@ $countryRegion = $module.Params.country_region
 $email = $module.Params.Email
 $orgUnit = $module.Params.org_unit
 $address = $module.Params.address
-$postalcode = $module.Params.postalcode
+$postalCode = $module.Params.postal_code
 $city = $module.Params.city
 $federalState = $module.Params.federal_state
 $state = $module.Params.state
@@ -48,14 +48,14 @@ try {
     $wmiObject = Get-WMIObject Win32_TSLicenseServer
 }
 catch {
-    $module.FailJson("Failed to get the wmi object", $Error[0])
+    $module.FailJson("Failed to get the wmi object 'Win32_TSLicenseServer'", $Error[0])
 }
 
 # FirstName
 if ($firstName -and $wmiObject.FirstName -and ($state -eq "absent")) {
     try {
         $wmiObject.FirstName = ""
-        $wmiObject.Save()
+        $wmiObject.Put()
         $module.Result.changed = $true
     }
     catch {
@@ -65,7 +65,7 @@ if ($firstName -and $wmiObject.FirstName -and ($state -eq "absent")) {
 elseif ($firstName -and ($wmiObject.FirstName -ne $firstName) -and ($state -eq "present")) {
     try {
         $wmiObject.FirstName = $firstName
-        $wmiObject.Save()
+        $wmiObject.Put()
         $module.Result.changed = $true
     }
     catch {
@@ -77,7 +77,7 @@ elseif ($firstName -and ($wmiObject.FirstName -ne $firstName) -and ($state -eq "
 if ($lastName -and $wmiObject.LastName -and ($state -eq "absent")) {
     try {
         $wmiObject.LastName = ""
-        $wmiObject.Save()
+        $wmiObject.Put()
         $module.Result.changed = $true
     }
     catch {
@@ -87,7 +87,7 @@ if ($lastName -and $wmiObject.LastName -and ($state -eq "absent")) {
 elseif ($lastName -and ($wmiObject.LastName -ne $lastName) -and ($state -eq "present")) {
     try {
         $wmiObject.LastName = $lastName
-        $wmiObject.Save()
+        $wmiObject.Put()
         $module.Result.changed = $true
     }
     catch {
@@ -99,7 +99,7 @@ elseif ($lastName -and ($wmiObject.LastName -ne $lastName) -and ($state -eq "pre
 if ($company -and $wmiObject.Company -and ($state -eq "absent")) {
     try {
         $wmiObject.Company = ""
-        $wmiObject.Save()
+        $wmiObject.Put()
         $module.Result.changed = $true
     }
     catch {
@@ -109,7 +109,7 @@ if ($company -and $wmiObject.Company -and ($state -eq "absent")) {
 elseif ($company -and ($wmiObject.Company -ne $company) -and ($state -eq "present")) {
     try {
         $wmiObject.Company = $company
-        $wmiObject.Save()
+        $wmiObject.Put()
         $module.Result.changed = $true
     }
     catch {
@@ -121,7 +121,7 @@ elseif ($company -and ($wmiObject.Company -ne $company) -and ($state -eq "presen
 if ($countryRegion -and $wmiObject.CountryRegion -and ($state -eq "absent")) {
     try {
         $wmiObject.CountryRegion = ""
-        $wmiObject.Save()
+        $wmiObject.Put()
         $module.Result.changed = $true
     }
     catch {
@@ -131,7 +131,7 @@ if ($countryRegion -and $wmiObject.CountryRegion -and ($state -eq "absent")) {
 elseif ($countryRegion -and ($wmiObject.CountryRegion -ne $countryRegion) -and ($state -eq "present")) {
     try {
         $wmiObject.CountryRegion = $countryRegion
-        $wmiObject.Save()
+        $wmiObject.Put()
         $module.Result.changed = $true
     }
     catch {
@@ -143,7 +143,7 @@ elseif ($countryRegion -and ($wmiObject.CountryRegion -ne $countryRegion) -and (
 if ($email -and $wmiObject.eMail -and ($state -eq "absent")) {
     try {
         $wmiObject.eMail = ""
-        $wmiObject.Save()
+        $wmiObject.Put()
         $module.Result.changed = $true
     }
     catch {
@@ -153,7 +153,7 @@ if ($email -and $wmiObject.eMail -and ($state -eq "absent")) {
 elseif ($email -and ($wmiObject.eMail -ne $email) -and ($state -eq "present")) {
     try {
         $wmiObject.eMail = $email
-        $wmiObject.Save()
+        $wmiObject.Put()
         $module.Result.changed = $true
     }
     catch {
@@ -165,7 +165,7 @@ elseif ($email -and ($wmiObject.eMail -ne $email) -and ($state -eq "present")) {
 if ($orgUnit -and $wmiObject.OrgUnit -and ($state -eq "absent")) {
     try {
         $wmiObject.orgUnit = ""
-        $wmiObject.Save()
+        $wmiObject.Put()
         $module.Result.changed = $true
     }
     catch {
@@ -175,7 +175,7 @@ if ($orgUnit -and $wmiObject.OrgUnit -and ($state -eq "absent")) {
 elseif ($orgUnit -and ($wmiObject.OrgUnit -ne $orgUnit) -and ($state -eq "present")) {
     try {
         $wmiObject.OrgUnit = $orgUnit
-        $wmiObject.Save()
+        $wmiObject.Put()
         $module.Result.changed = $true
     }
     catch {
@@ -187,7 +187,7 @@ elseif ($orgUnit -and ($wmiObject.OrgUnit -ne $orgUnit) -and ($state -eq "presen
 if ($address -and $wmiObject.Address -and ($state -eq "absent")) {
     try {
         $wmiObject.Address = ""
-        $wmiObject.Save()
+        $wmiObject.Put()
         $module.Result.changed = $true
     }
     catch {
@@ -197,7 +197,7 @@ if ($address -and $wmiObject.Address -and ($state -eq "absent")) {
 elseif ($address -and ($wmiObject.Address -ne $address) -and ($state -eq "present")) {
     try {
         $wmiObject.Address = $address
-        $wmiObject.Save()
+        $wmiObject.Put()
         $module.Result.changed = $true
     }
     catch {
@@ -206,24 +206,24 @@ elseif ($address -and ($wmiObject.Address -ne $address) -and ($state -eq "presen
 }
 
 # Postalcode
-if ($postalcode -and $wmiObject.PostalCode -and ($state -eq "absent")) {
+if ($postalCode -and $wmiObject.PostalCode -and ($state -eq "absent")) {
     try {
         $wmiObject.PostalCode = ""
-        $wmiObject.Save()
+        $wmiObject.Put()
         $module.Result.changed = $true
     }
     catch {
-        $module.FailJson("Failed to remove postalcode", $Error[0])
+        $module.FailJson("Failed to remove postal_code", $Error[0])
     }
 }
-elseif ($postalcode -and ($wmiObject.PostalCode -ne $postalcode) -and ($state -eq "present")) {
+elseif ($postalCode -and ($wmiObject.PostalCode -ne $postalCode) -and ($state -eq "present")) {
     try {
-        $wmiObject.PostalCode = $postalcode
-        $wmiObject.Save()
+        $wmiObject.PostalCode = $postalCode
+        $wmiObject.Put()
         $module.Result.changed = $true
     }
     catch {
-        $module.FailJson("Failed to set postalcode", $Error[0])
+        $module.FailJson("Failed to set postal_code", $Error[0])
     }
 }
 
@@ -231,7 +231,7 @@ elseif ($postalcode -and ($wmiObject.PostalCode -ne $postalcode) -and ($state -e
 if ($city -and $wmiObject.City -and ($state -eq "absent")) {
     try {
         $wmiObject.City = ""
-        $wmiObject.Save()
+        $wmiObject.Put()
         $module.Result.changed = $true
     }
     catch {
@@ -241,7 +241,7 @@ if ($city -and $wmiObject.City -and ($state -eq "absent")) {
 elseif ($city -and ($wmiObject.City -ne $city) -and ($state -eq "present")) {
     try {
         $wmiObject.City = $city
-        $wmiObject.Save()
+        $wmiObject.Put()
         $module.Result.changed = $true
     }
     catch {
@@ -253,7 +253,7 @@ elseif ($city -and ($wmiObject.City -ne $city) -and ($state -eq "present")) {
 if ($federalState -and $wmiObject.State -and ($state -eq "absent")) {
     try {
         $wmiObject.State = ""
-        $wmiObject.Save()
+        $wmiObject.Put()
         $module.Result.changed = $true
     }
     catch {
@@ -263,21 +263,11 @@ if ($federalState -and $wmiObject.State -and ($state -eq "absent")) {
 elseif ($federalState -and ($wmiObject.State -ne $federalState) -and ($state -eq "present")) {
     try {
         $wmiObject.State = $federalState
-        $wmiObject.Save()
+        $wmiObject.Put()
         $module.Result.changed = $true
     }
     catch {
         $module.FailJson("Failed to set federal state", $Error[0])
-    }
-}
-
-# Apply changes
-if($state -eq "present"){
-    try {
-        $wmiObject.Put()
-    }
-    catch {
-        $module.FailJson("Failed to apply changes to wmi object", $Error[0])
     }
 }
 
