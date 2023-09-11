@@ -55,7 +55,7 @@ catch {
 if ($firstName -and $wmiObject.FirstName -and ($state -eq "absent")) {
     try {
         $wmiObject.FirstName = ""
-        $wmiObject.Put()
+        $wmiObject.Put() | Out-Null
         $module.Result.changed = $true
     }
     catch {
@@ -65,7 +65,7 @@ if ($firstName -and $wmiObject.FirstName -and ($state -eq "absent")) {
 elseif ($firstName -and ($wmiObject.FirstName -ne $firstName) -and ($state -eq "present")) {
     try {
         $wmiObject.FirstName = $firstName
-        $wmiObject.Put()
+        $wmiObject.Put() | Out-Null
         $module.Result.changed = $true
     }
     catch {
@@ -77,7 +77,7 @@ elseif ($firstName -and ($wmiObject.FirstName -ne $firstName) -and ($state -eq "
 if ($lastName -and $wmiObject.LastName -and ($state -eq "absent")) {
     try {
         $wmiObject.LastName = ""
-        $wmiObject.Put()
+        $wmiObject.Put() | Out-Null
         $module.Result.changed = $true
     }
     catch {
@@ -87,7 +87,7 @@ if ($lastName -and $wmiObject.LastName -and ($state -eq "absent")) {
 elseif ($lastName -and ($wmiObject.LastName -ne $lastName) -and ($state -eq "present")) {
     try {
         $wmiObject.LastName = $lastName
-        $wmiObject.Put()
+        $wmiObject.Put() | Out-Null
         $module.Result.changed = $true
     }
     catch {
@@ -99,7 +99,7 @@ elseif ($lastName -and ($wmiObject.LastName -ne $lastName) -and ($state -eq "pre
 if ($company -and $wmiObject.Company -and ($state -eq "absent")) {
     try {
         $wmiObject.Company = ""
-        $wmiObject.Put()
+        $wmiObject.Put() | Out-Null
         $module.Result.changed = $true
     }
     catch {
@@ -109,7 +109,7 @@ if ($company -and $wmiObject.Company -and ($state -eq "absent")) {
 elseif ($company -and ($wmiObject.Company -ne $company) -and ($state -eq "present")) {
     try {
         $wmiObject.Company = $company
-        $wmiObject.Put()
+        $wmiObject.Put() | Out-Null
         $module.Result.changed = $true
     }
     catch {
@@ -121,7 +121,7 @@ elseif ($company -and ($wmiObject.Company -ne $company) -and ($state -eq "presen
 if ($countryRegion -and $wmiObject.CountryRegion -and ($state -eq "absent")) {
     try {
         $wmiObject.CountryRegion = ""
-        $wmiObject.Put()
+        $wmiObject.Put() | Out-Null
         $module.Result.changed = $true
     }
     catch {
@@ -131,7 +131,7 @@ if ($countryRegion -and $wmiObject.CountryRegion -and ($state -eq "absent")) {
 elseif ($countryRegion -and ($wmiObject.CountryRegion -ne $countryRegion) -and ($state -eq "present")) {
     try {
         $wmiObject.CountryRegion = $countryRegion
-        $wmiObject.Put()
+        $wmiObject.Put() | Out-Null
         $module.Result.changed = $true
     }
     catch {
@@ -143,7 +143,7 @@ elseif ($countryRegion -and ($wmiObject.CountryRegion -ne $countryRegion) -and (
 if ($email -and $wmiObject.eMail -and ($state -eq "absent")) {
     try {
         $wmiObject.eMail = ""
-        $wmiObject.Put()
+        $wmiObject.Put() | Out-Null
         $module.Result.changed = $true
     }
     catch {
@@ -153,7 +153,7 @@ if ($email -and $wmiObject.eMail -and ($state -eq "absent")) {
 elseif ($email -and ($wmiObject.eMail -ne $email) -and ($state -eq "present")) {
     try {
         $wmiObject.eMail = $email
-        $wmiObject.Put()
+        $wmiObject.Put() | Out-Null
         $module.Result.changed = $true
     }
     catch {
@@ -165,7 +165,7 @@ elseif ($email -and ($wmiObject.eMail -ne $email) -and ($state -eq "present")) {
 if ($orgUnit -and $wmiObject.OrgUnit -and ($state -eq "absent")) {
     try {
         $wmiObject.orgUnit = ""
-        $wmiObject.Put()
+        $wmiObject.Put() | Out-Null
         $module.Result.changed = $true
     }
     catch {
@@ -175,7 +175,7 @@ if ($orgUnit -and $wmiObject.OrgUnit -and ($state -eq "absent")) {
 elseif ($orgUnit -and ($wmiObject.OrgUnit -ne $orgUnit) -and ($state -eq "present")) {
     try {
         $wmiObject.OrgUnit = $orgUnit
-        $wmiObject.Put()
+        $wmiObject.Put() | Out-Null
         $module.Result.changed = $true
     }
     catch {
@@ -187,7 +187,7 @@ elseif ($orgUnit -and ($wmiObject.OrgUnit -ne $orgUnit) -and ($state -eq "presen
 if ($address -and $wmiObject.Address -and ($state -eq "absent")) {
     try {
         $wmiObject.Address = ""
-        $wmiObject.Put()
+        $wmiObject.Put() | Out-Null
         $module.Result.changed = $true
     }
     catch {
@@ -197,7 +197,7 @@ if ($address -and $wmiObject.Address -and ($state -eq "absent")) {
 elseif ($address -and ($wmiObject.Address -ne $address) -and ($state -eq "present")) {
     try {
         $wmiObject.Address = $address
-        $wmiObject.Put()
+        $wmiObject.Put() | Out-Null
         $module.Result.changed = $true
     }
     catch {
@@ -209,7 +209,7 @@ elseif ($address -and ($wmiObject.Address -ne $address) -and ($state -eq "presen
 if ($postalCode -and $wmiObject.PostalCode -and ($state -eq "absent")) {
     try {
         $wmiObject.PostalCode = ""
-        $wmiObject.Put()
+        $wmiObject.Put() | Out-Null
         $module.Result.changed = $true
     }
     catch {
@@ -219,7 +219,7 @@ if ($postalCode -and $wmiObject.PostalCode -and ($state -eq "absent")) {
 elseif ($postalCode -and ($wmiObject.PostalCode -ne $postalCode) -and ($state -eq "present")) {
     try {
         $wmiObject.PostalCode = $postalCode
-        $wmiObject.Put()
+        $wmiObject.Put() | Out-Null
         $module.Result.changed = $true
     }
     catch {
@@ -231,7 +231,7 @@ elseif ($postalCode -and ($wmiObject.PostalCode -ne $postalCode) -and ($state -e
 if ($city -and $wmiObject.City -and ($state -eq "absent")) {
     try {
         $wmiObject.City = ""
-        $wmiObject.Put()
+        $wmiObject.Put() | Out-Null
         $module.Result.changed = $true
     }
     catch {
@@ -241,7 +241,7 @@ if ($city -and $wmiObject.City -and ($state -eq "absent")) {
 elseif ($city -and ($wmiObject.City -ne $city) -and ($state -eq "present")) {
     try {
         $wmiObject.City = $city
-        $wmiObject.Put()
+        $wmiObject.Put() | Out-Null
         $module.Result.changed = $true
     }
     catch {
@@ -253,7 +253,7 @@ elseif ($city -and ($wmiObject.City -ne $city) -and ($state -eq "present")) {
 if ($federalState -and $wmiObject.State -and ($state -eq "absent")) {
     try {
         $wmiObject.State = ""
-        $wmiObject.Put()
+        $wmiObject.Put() | Out-Null
         $module.Result.changed = $true
     }
     catch {
@@ -263,7 +263,7 @@ if ($federalState -and $wmiObject.State -and ($state -eq "absent")) {
 elseif ($federalState -and ($wmiObject.State -ne $federalState) -and ($state -eq "present")) {
     try {
         $wmiObject.State = $federalState
-        $wmiObject.Put()
+        $wmiObject.Put() | Out-Null
         $module.Result.changed = $true
     }
     catch {
