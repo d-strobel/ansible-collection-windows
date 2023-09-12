@@ -15,7 +15,10 @@ jobs:
 
       - name: Get current version
         id: cversion
-        run: echo "::set-output name=version::$(grep version galaxy.yml | awk -F'"' '{ print $2 }')"
+        run: |
+          RELEASE=$(grep version galaxy.yml | awk -F'"' '{ print $2 }')
+          echo "Release version: $RELEASE"
+          echo "release_version=$RELEASE" >> "$GITHUB_ENV"
 
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v2
@@ -45,10 +48,10 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: v${{ steps.cversion.outputs.version }}
-          release_name: v${{ steps.cversion.outputs.version }}
+          tag_name: v${{ release_version }}
+          release_name: v${{ release_version }}
           body: |
-            # {{ steps.cversion.outputs.version }}
+            # ${{ release_version }}
 
             Install with:
             ansible-galaxy collection install -r requirements.yml -f
@@ -62,9 +65,9 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: d_strobel.windows-${{ steps.cversion.outputs.version }}.tar.gz
-          asset_name: d_strobel.windows-${{ steps.cversion.outputs.version }}.tar.gz
+          asset_path: d_strobel.windows-${{ release_version }}.tar.gz
+          asset_name: d_strobel.windows-${{ release_version }}.tar.gz
           asset_content_type: application/tar+gzip
 
       - name: Deploy Ansible collection to Galaxy
-        run: ansible-galaxy collection publish d_strobel.windows-${{ steps.cversion.outputs.version }}.tar.gz --api-key ${{ secrets.GALAXY_API_KEY }}
+        run: ansible-galaxy collection publish d_strobel.windows-${{ release_version }}.tar.gz --api-key ${{ secrets.GALAXY_API_KEY }}
