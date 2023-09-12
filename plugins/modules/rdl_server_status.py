@@ -7,7 +7,7 @@
 DOCUMENTATION = r'''
 ---
 module: rdl_server_status
-short_description: Add or remove the company info of the wmi object.
+short_description: Activate, deactivate or reactivate the remote desktop license server.
 description:
 - Add or remove the company parameters of the wmi object of the remote desktop license server.
 options:
