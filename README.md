@@ -1,3 +1,6 @@
+[![build](https://github.com/d-strobel/ansible-collection-windows/actions/workflows/release.yml/badge.svg)](https://github.com/d-strobel/ansible-collection-windows/actions/workflows/build.yml)
+[![AGPL-3.0 Licensed](https://img.shields.io/github/license/d-strobel/ansible-collection-windows)](https://github.com/d-strobel/ansible-collection-windows/blob/main/LICENSE)
+
 # Ansible Collection: d_strobel.windows
 
 Collection of windows ansible modules.
