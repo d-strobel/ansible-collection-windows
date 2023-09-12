@@ -39,37 +39,51 @@ jobs:
           cp -rf $directories build/src
         env:
           files: "README.md LICENSE galaxy.yml"
-          directories: "plugins"
+          directories: "plugins meta"
 
       - name: Build Ansible Collection
         run: ansible-galaxy collection build build/src --force
 
-      - name: Create Release
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Create release
+        uses: ncipollo/release-action@v1
         with:
-          tag_name: v${{ steps.version.outputs.release }}
-          release_name: v${{ steps.version.outputs.release }}
+          name: v${{ steps.version.outputs.release }}
+          tag: v${{ steps.version.outputs.release }}
+          artifacts: d_strobel-windows-${{ steps.version.outputs.release }}.tar.gz
+          draft: false
+          prerelease: false
           body: |
             # ${{ steps.version.outputs.release }}
 
-            Install with:
-            ansible-galaxy collection install -r requirements.yml -f
-          draft: false
-          prerelease: false
+            Descriptions and changelog comin soon...
+          generateReleaseNotes: true
 
-      - name: Upload Release Asset
-        id: upload-release-asset
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: d_strobel-windows-${{ steps.version.outputs.release }}.tar.gz
-          asset_name: d_strobel-windows-${{ steps.version.outputs.release }}.tar.gz
-          asset_content_type: application/tar+gzip
+      # - name: Create Release
+      #   id: create_release
+      #   uses: actions/create-release@v1
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #   with:
+      #     tag_name: v${{ steps.version.outputs.release }}
+      #     release_name: v${{ steps.version.outputs.release }}
+      #     body: |
+      #       # ${{ steps.version.outputs.release }}
+
+      #       Install with:
+      #       ansible-galaxy collection install -r requirements.yml -f
+      #     draft: false
+      #     prerelease: false
+
+      # - name: Upload Release Asset
+      #   id: upload-release-asset
+      #   uses: actions/upload-release-asset@v1
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #   with:
+      #     upload_url: ${{ steps.create_release.outputs.upload_url }}
+      #     asset_path: d_strobel-windows-${{ steps.version.outputs.release }}.tar.gz
+      #     asset_name: d_strobel-windows-${{ steps.version.outputs.release }}.tar.gz
+      #     asset_content_type: application/tar+gzip
 
       - name: Deploy Ansible collection to Galaxy
         run: ansible-galaxy collection publish d_strobel-windows-${{ steps.version.outputs.release }}.tar.gz --api-key ${{ secrets.GALAXY_API_KEY }}
