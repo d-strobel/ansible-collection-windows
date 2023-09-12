@@ -55,35 +55,7 @@ jobs:
           body: |
             # ${{ steps.version.outputs.release }}
 
-            Descriptions and changelog comin soon...
           generateReleaseNotes: true
-
-      # - name: Create Release
-      #   id: create_release
-      #   uses: actions/create-release@v1
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      #   with:
-      #     tag_name: v${{ steps.version.outputs.release }}
-      #     release_name: v${{ steps.version.outputs.release }}
-      #     body: |
-      #       # ${{ steps.version.outputs.release }}
-
-      #       Install with:
-      #       ansible-galaxy collection install -r requirements.yml -f
-      #     draft: false
-      #     prerelease: false
-
-      # - name: Upload Release Asset
-      #   id: upload-release-asset
-      #   uses: actions/upload-release-asset@v1
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      #   with:
-      #     upload_url: ${{ steps.create_release.outputs.upload_url }}
-      #     asset_path: d_strobel-windows-${{ steps.version.outputs.release }}.tar.gz
-      #     asset_name: d_strobel-windows-${{ steps.version.outputs.release }}.tar.gz
-      #     asset_content_type: application/tar+gzip
 
       - name: Deploy Ansible collection to Galaxy
         run: ansible-galaxy collection publish d_strobel-windows-${{ steps.version.outputs.release }}.tar.gz --api-key ${{ secrets.GALAXY_API_KEY }}
