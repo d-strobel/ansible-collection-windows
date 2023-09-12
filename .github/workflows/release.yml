@@ -1,9 +1,9 @@
-name: Release and Deploy collection
+name: Release
 on: # yamllint disable-line rule:truthy
   workflow_dispatch:
 
 jobs:
-  release:
+  build:
     runs-on: ubuntu-latest
     if: github.repository == 'd-strobel/ansible-collection-windows'
     strategy:
