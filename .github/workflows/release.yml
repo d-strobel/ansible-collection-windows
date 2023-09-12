@@ -3,12 +3,14 @@ on: # yamllint disable-line rule:truthy
   workflow_dispatch:
 
 jobs:
-  releaseanddeploy:
+  release:
     runs-on: ubuntu-latest
     if: github.repository == 'd-strobel/ansible-collection-windows'
     strategy:
       matrix:
         python-version: [3.8]
+    permissions:
+      contents: write
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
