@@ -67,9 +67,9 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: d_strobel.windows-${{ steps.version.outputs.release }}.tar.gz
-          asset_name: d_strobel.windows-${{ steps.version.outputs.release }}.tar.gz
+          asset_path: d_strobel-windows-${{ steps.version.outputs.release }}.tar.gz
+          asset_name: d_strobel-windows-${{ steps.version.outputs.release }}.tar.gz
           asset_content_type: application/tar+gzip
 
       - name: Deploy Ansible collection to Galaxy
-        run: ansible-galaxy collection publish d_strobel.windows-${{ steps.version.outputs.release }}.tar.gz --api-key ${{ secrets.GALAXY_API_KEY }}
+        run: ansible-galaxy collection publish d_strobel-windows-${{ steps.version.outputs.release }}.tar.gz --api-key ${{ secrets.GALAXY_API_KEY }}
