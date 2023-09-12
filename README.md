@@ -26,3 +26,8 @@ Collection of windows ansible modules.
 | wsus | wsus_email_notification_setting | Modify email notification settings |
 | wsus | wsus_install_approval_rule | Modify an update install approval rule |
 | wsus | wsus_subscription | Modify the subscription. |
+
+## Release
+
+1. Edit the version number in the [galaxy.yml](galaxy.yml) file.
+2. Run the github action "Release".
