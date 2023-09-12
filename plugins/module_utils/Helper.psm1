@@ -1,3 +1,4 @@
+# ADFS functions
 function Import-AdfsPowershellModule {
     $adfsModule = "ADFS"
 
@@ -11,7 +12,6 @@ function Import-AdfsPowershellModule {
     }
 }
 
-# Access control policy
 function Get-AdfsAccessControlPolicySpecs {
     # Output the specs
     @{
@@ -39,7 +39,6 @@ function Get-AdfsAccessControlPolicySpecs {
     }
 }
 
-# Transform rules
 function Get-AdfsTransformRulesSpecs {
     # Output the specs
     @{
@@ -150,13 +149,63 @@ function Get-AdfsTransformRules {
     }
 }
 
+# FSRM functions
+function Import-FsrmPowershellModule {
+    $fsrm_module = "FileServerResourceManager"
+
+    try {
+        if ($null -eq (Get-Module $fsrm_module -ErrorAction SilentlyContinue)) {
+            Import-Module $fsrm_module
+        }
+    }
+    catch {
+        return $Error[0]
+    }
+}
+
+function New-FsrmActionEmail {
+    [CmdletBinding()]
+    param (
+        [Parameter(Mandatory = $true)]
+        [ValidateScript({ $_.GetType().FullName -eq 'Ansible.Basic.AnsibleModule' })]
+        $Module
+    )
+
+    return New-FsrmAction `
+        -Type Email `
+        -MailTo $module.Params.email_to `
+        -MailCC $module.Params.email_cc `
+        -MailBCC $module.Params.email_bcc `
+        -Subject $module.Params.email_subject `
+        -Body $module.Params.email_body
+}
+
+function New-FsrmActionEvent {
+    [CmdletBinding()]
+    param (
+        [Parameter(Mandatory = $true)]
+        [ValidateScript({ $_.GetType().FullName -eq 'Ansible.Basic.AnsibleModule' })]
+        $Module
+    )
+
+    return New-FsrmAction `
+        -Type Event `
+        -EventType $module.Params.event_type`
+        -Body $module.Params.event_body
+}
+
 # Export functions
 $exportMembers = @{
     Function = @(
+        # ADFS
         'Import-AdfsPowershellModule',
         'Get-AdfsAccessControlPolicySpecs',
         'Get-AdfsTransformRulesSpecs',
         'Get-AdfsTransformRules'
+        # FSRM
+        'Check-FsrmPowershellModule',
+        'New-FsrmActionEmail',
+        'New-FsrmActionEvent'
     )
 }
 Export-ModuleMember @exportMembers
