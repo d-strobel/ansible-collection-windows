@@ -1,6 +1,6 @@
 #!powershell
 
-# Copyright: (c) 2023, Dustin Strobel (@d-strobel), Yasmin Hinel (@seasxlticecream)
+# Copyright: (c) 2023, Dustin Strobel (@d-strobel), Yasmin Hinel (@yahikii)
 # GNU General Public License v3.0+ (see LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 #AnsibleRequires -CSharpUtil Ansible.Basic
