@@ -68,10 +68,18 @@ if (($null -eq $dhcpServerClass) -and ($state -eq "present")) {
     }
 }
 
+# Remove whitespace if description is present
+if ($dhcpServerClass.Description) {
+    $descriptionToCheck = $dhcpServerClass.Description.Trim()
+}
+else {
+    $descriptionToCheck = ""
+}
+
 # Compare changes
 if (
     ($dhcpServerClass.Data -ne $data) -or
-    ($dhcpServerClass.Description.Trim() -ne $description)
+    ($descriptionToCheck -ne $description)
 ) {
     try {
         Set-DhcpServerv4Class `
