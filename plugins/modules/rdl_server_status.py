@@ -23,6 +23,18 @@ options:
     - This parameter is required when the method is set to manual.
     type: str
     required: false
+  reactivation_reason:
+    description:
+    - Specify the reason for the reactivation of the license server.
+    - This parameter is required when method is set to C(automatic).
+    type: str
+    required: false
+    choices:
+    - redeployment
+    - corrcupt_certificate
+    - compromised_private_key
+    - activation_key_expired
+    - server_upgrade
   state:
     description:
     - Set to C(present) to ensure the exclusion range is present.
