@@ -21,6 +21,7 @@ Collection of windows ansible modules.
 | fsrm | fsrm_filegroup | Add or modify file groups |
 | fsrm | fsrm_setting | Modify general settings |
 | rdl | rdl_company_info | Add or remove the company info of the wmi object. |
+| rdl | rdl_server_domain_status | Add or remove the server to the Remote Desktop license server group in a given domain. |
 | rdl | rdl_server_status | Activate, deactivate or reactivate the remote desktop license server. |
 | wsus | wsus_computer_target_group | Add or remove a computer group. |
 | wsus | wsus_email_notification_setting | Modify email notification settings |
