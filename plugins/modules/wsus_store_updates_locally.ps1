@@ -8,8 +8,8 @@
 
 $spec = @{
     options             = @{
-        update_location        = @{ type = "str"; choices = "local", "microsoft_update"; default = "local"}
-        state                  = @{ type = "str"; choices = "absent", "present"; default = "present" }
+        update_location = @{ type = "str"; choices = "local", "microsoft_update"; default = "local" }
+        state           = @{ type = "str"; choices = "absent", "present"; default = "present" }
     }
     supports_check_mode = $false
 }
