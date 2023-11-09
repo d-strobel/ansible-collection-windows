@@ -17,7 +17,7 @@ $spec = @{
 $module = [Ansible.Basic.AnsibleModule]::Create($args, $spec)
 
 # Map variables
-$updatelocation = $module.Params.update_location
+$updateLocation = $module.Params.update_location
 $state = $module.Params.state
 
 # ErrorAction
