@@ -26,6 +26,7 @@ Collection of windows ansible modules.
 | wsus | wsus_computer_target_group | Add or remove a computer group. |
 | wsus | wsus_email_notification_setting | Modify email notification settings |
 | wsus | wsus_install_approval_rule | Modify an update install approval rule |
+| wsus | wsus_store_update_location | Modify update file storage location. Store them locally or on Microsoft Update |
 | wsus | wsus_subscription | Modify the subscription. |
 
 ## Release
