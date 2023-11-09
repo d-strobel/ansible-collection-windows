@@ -6,7 +6,7 @@
 
 DOCUMENTATION = r'''
 ---
-module: wsus_store_updates_locally
+module: wsus_store_update_location
 short_description: Modify the wsus updatefile location.
 description:
 - Modify the location of the wsus updatefile location.
