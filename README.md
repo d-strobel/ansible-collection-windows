@@ -23,10 +23,11 @@ Collection of windows ansible modules.
 | rdl | rdl_company_info | Add or remove the company info of the wmi object. |
 | rdl | rdl_server_domain_status | Add or remove the server to the Remote Desktop license server group in a given domain. |
 | rdl | rdl_server_status | Activate, deactivate or reactivate the remote desktop license server. |
+| win | win_scheduled_task | Register, Unregister scheduled task on a server. |
 | wsus | wsus_computer_target_group | Add or remove a computer group. |
 | wsus | wsus_email_notification_setting | Modify email notification settings |
 | wsus | wsus_install_approval_rule | Modify an update install approval rule |
-| wsus | wsus_store_update_location | Modify update file storage location. Store them locally or on Microsoft Update |
+| wsus | wsus_store_update_location | Modify the wsus updatefile location. |
 | wsus | wsus_subscription | Modify the subscription. |
 
 ## Release
