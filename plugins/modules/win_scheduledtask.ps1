@@ -10,7 +10,7 @@
 
 $spec = @{
     options             = @{
-        task_name   = @{ type = "str"; required = $true }
+        name   = @{ type = "str"; required = $true }
         description = @{ type = "str" }
         actions     = @{ type = "dict"; options = @{
                 arguments = @{ type = "str" }
@@ -31,7 +31,7 @@ $spec = @{
             )
         }
         username    = @{ type = "str" }
-        password    = @{ type = "str" }
+        password    = @{ type = "str"; no_log = $false }
         runlevel    = @{ type = "str"; choices = "limited", "highest" }
         state       = @{ type = "str"; choices = "absent", "present"; default = "present" }
     }
@@ -46,7 +46,7 @@ $spec = @{
 $module = [Ansible.Basic.AnsibleModule]::Create($args, $spec)
 
 #Map variables
-$taskName = $module.Params.task_name
+$taskName = $module.Params.name
 $description = $module.Params.description
 $actions = $module.Params.actions
 $arguments = $module.Params.actions.arguments
@@ -65,14 +65,6 @@ $state = $module.Params.state
 $ErrorActionPreference = 'Stop'
 
 if ($state -eq "present") {
-    # Get User parameters
-    if (-not $username) {
-        $module.FailJson("Failed to retrieve username. The username is required")
-    }
-    if (-not $password) {
-        $module.FailJson("Failed to retrieve password. The password is required")
-    }
-
     # New Task Action
     if ($actions) {
         try {
@@ -96,7 +88,7 @@ if ($state -eq "present") {
     }
     elseif ($triggers -and ($frequency -eq "daily")) {
         try {
-            $taskTrigger = New-ScheduledTaskTrigger -Daily -At $startTime #StartTime needs to be written like e.g. 3PM or 2AM
+            $taskTrigger = New-ScheduledTaskTrigger -Daily -At $startTime
         }
         catch {
             $module.FailJson("Failed to create scheduled task trigger", $Error[0])
@@ -115,7 +107,7 @@ if ($state -eq "present") {
     }
 
     # Register Scheduled Task
-    if ((-not $description) -and $state -eq "present") {
+    if ((-not $description) -and ($state -eq "present")) {
         try {
             Register-ScheduledTask `
                 -TaskName $taskName `
