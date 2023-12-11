@@ -6,7 +6,7 @@
 
 DOCUMENTATION = r'''
 ---
-module: win_scheduledtask
+module: win_scheduled_task
 short_description: Register, Unregister scheduled task on a server.
 description:
 - Add or remove the scheduled task on a given server.
