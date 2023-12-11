@@ -12,25 +12,33 @@ $spec = @{
     options             = @{
         task_name   = @{ type = "str"; required = $true }
         description = @{ type = "str" }
-        actions     = @{ type = "str"; default = "" }
-        arguments   = @{ type = "str" }
-        execute     = @{ type = "str" }
-        triggers    = @{ type = "str"; default = "" }
-        start_time  = @{ type = "str" }
-        day_of_week = @{ type = "str"; choices = "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" }
-        frequency   = @{ type = "str"; choices = "once", "daily", "weekly"; default = "once" }
+        actions     = @{ type = "dict"; options = @{
+                arguments = @{ type = "str" }
+                execute   = @{ type = "str" }
+            }
+            required_if = @(
+                , @("actions", $true, @("arguments", "execute"))
+            )
+        }
+        triggers    = @{ type = "dict"; options = @{
+                start_time  = @{ type = "str" }
+                day_of_week = @{ type = "str"; choices = "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" }
+                frequency   = @{ type = "str"; choices = "once", "daily", "weekly"; default = "once" }
+            }
+            required_if = @(
+                , @("triggers", $true, @("frequency", "start_time"))
+                , @("frequency", "weekly", @("day_of_week"))
+            )
+        }
         username    = @{ type = "str" }
         password    = @{ type = "str" }
         runlevel    = @{ type = "str"; choices = "limited", "highest" }
         state       = @{ type = "str"; choices = "absent", "present"; default = "present" }
     }
+
     required_if         = @(
-        , @("actions", "task_name", @("arguments", "execute"))
-        , @("triggers", $true, @("frequency", "start_time"))
-        , @("frequency", "weekly", @("day_of_week"))
         , @("state", "present", @("username", "password", "actions"))
     )
-
 
     supports_check_mode = $false
 }
@@ -41,12 +49,12 @@ $module = [Ansible.Basic.AnsibleModule]::Create($args, $spec)
 $taskName = $module.Params.task_name
 $description = $module.Params.description
 $actions = $module.Params.actions
-$arguments = $module.Params.arguments
-$execute = $module.Params.execute
+$arguments = $module.Params.actions.arguments
+$execute = $module.Params.actions.execute
 $triggers = $module.Params.triggers
-$startTime = $module.Params.start_time
-$dayOfWeek = $module.Params.day_of_week
-$frequency = $module.Params.frequency
+$startTime = $module.Params.triggers.start_time
+$dayOfWeek = $module.Params.triggers.day_of_week
+$frequency = $module.Params.triggers.frequency
 $username = $module.Params.username
 $password = $module.Params.password
 $runLevel = $module.Params.runlevel
