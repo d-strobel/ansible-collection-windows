@@ -31,7 +31,7 @@ $spec = @{
             )
         }
         username    = @{ type = "str" }
-        password    = @{ type = "str"; no_log = $false }
+        password    = @{ type = "str"; no_log = $true }
         runlevel    = @{ type = "str"; choices = "limited", "highest" }
         state       = @{ type = "str"; choices = "absent", "present"; default = "present" }
     }
