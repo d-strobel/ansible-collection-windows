@@ -12,7 +12,7 @@ $spec = @{
     options             = @{
         name   = @{ type = "str"; required = $true }
         description = @{ type = "str" }
-        actions     = @{ type = "dict"; options = @{
+        actions     = @{ type = "list"; options = @{
                 arguments = @{ type = "str" }
                 execute   = @{ type = "str" }
             }
@@ -20,7 +20,7 @@ $spec = @{
                 , @("actions", $true, @("arguments", "execute"))
             )
         }
-        triggers    = @{ type = "dict"; options = @{
+        triggers    = @{ type = "list"; options = @{
                 start_time  = @{ type = "str" }
                 day_of_week = @{ type = "str"; choices = "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" }
                 frequency   = @{ type = "str"; choices = "once", "daily", "weekly"; default = "once" }
