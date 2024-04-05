@@ -16,6 +16,7 @@ Collection of windows ansible modules.
 | dhcp | dhcp_exclusion_v4 | Add or remove an IPv4 exclusion range. |
 | dhcp | dhcp_failover_v4 | Add or remove an IPv4 failover. |
 | dhcp | dhcp_option_definition_v4 | Add, remove or change an IPv4 option definition. |
+| dhcp | dhcp_option_value_v4 | Add, remove or change an IPv4 option value. |
 | dhcp | dhcp_scope_v4 | Add or remove a IPv4 dhcp scope. |
 | fsrm | fsrm_file_screen_template | Add or modify file screen templates |
 | fsrm | fsrm_filegroup | Add or modify file groups |
