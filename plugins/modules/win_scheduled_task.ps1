@@ -10,7 +10,7 @@
 
 $spec = @{
     options             = @{
-        name   = @{ type = "str"; required = $true }
+        name        = @{ type = "str"; required = $true }
         description = @{ type = "str" }
         actions     = @{ type = "list"; options = @{
                 arguments = @{ type = "str" }
@@ -65,126 +65,128 @@ $state = $module.Params.state
 $ErrorActionPreference = 'Stop'
 
 if ($state -eq "present") {
-    # New Task Action
-    if ($actions) {
-        try {
-            $taskAction = New-ScheduledTaskAction `
-                -Execute $execute `
-                -Argument $arguments
-        }
-        catch {
-            $module.FailJson("Failed to create scheduled task action", $Error[0])
-        }
-    }
-
-    # New Task Trigger
-    if ($triggers -and ($frequency -eq "once")) {
-        try {
-            $taskTrigger = New-ScheduledTaskTrigger -Once -At $startTime
-        }
-        catch {
-            $module.FailJson("Failed to create scheduled task trigger", $Error[0])
-        }
-    }
-    elseif ($triggers -and ($frequency -eq "daily")) {
-        try {
-            $taskTrigger = New-ScheduledTaskTrigger -Daily -At $startTime
-        }
-        catch {
-            $module.FailJson("Failed to create scheduled task trigger", $Error[0])
-        }
-    }
-    elseif ($triggers -and ($frequency -eq "weekly")) {
-        try {
-            $taskTrigger = New-ScheduledTaskTrigger -Weekly -DaysOfWeek $dayOfWeek -At $startTime
-        }
-        catch {
-            $module.FailJson("Failed to create scheduled task trigger", $Error[0])
-        }
-    }
-    elseif ($triggers -and ($frequency -eq "weekly") -and ($null -eq $dayOfWeek)) {
-        $module.FailJson("Failed to create scheduled task trigger. Parameter day of week is required if frequency is weekly")
-    }
-
-    # Register Scheduled Task
-    if ((-not $description) -and ($state -eq "present")) {
-        try {
-            Register-ScheduledTask `
-                -TaskName $taskName `
-                -Action $taskAction `
-                -User $username `
-                -Password $password
-        }
-        catch {
-            $module.FailJson("Failed to create scheduled task", $Error[0])
+    if (-not (Get-ScheduledTask -TaskName $taskName -ErrorAction SilentlyContinue)) {
+        # New Task Action
+        if ($actions) {
+            try {
+                $taskAction = New-ScheduledTaskAction `
+                    -Execute $execute `
+                    -Argument $arguments
+            }
+            catch {
+                $module.FailJson("Failed to create scheduled task action", $Error[0])
+            }
         }
 
-    }
-    elseif ($description -and ($state -eq "present")) {
-        try {
-            Register-ScheduledTask `
-                -TaskName $taskName `
-                -Description $description `
-                -Action $taskAction `
-                -User $username `
-                -Password $password
+        # New Task Trigger
+        if ($triggers -and ($frequency -eq "once")) {
+            try {
+                $taskTrigger = New-ScheduledTaskTrigger -Once -At $startTime
+            }
+            catch {
+                $module.FailJson("Failed to create scheduled task trigger", $Error[0])
+            }
         }
-        catch {
-            $module.FailJson("Failed to create scheduled task", $Error[0])
+        elseif ($triggers -and ($frequency -eq "daily")) {
+            try {
+                $taskTrigger = New-ScheduledTaskTrigger -Daily -At $startTime
+            }
+            catch {
+                $module.FailJson("Failed to create scheduled task trigger", $Error[0])
+            }
         }
-    }
-    elseif ($runLevel -and ($state -eq "present")) {
-        try {
-            Register-ScheduledTask `
-                -TaskName $taskName `
-                -RunLevel $runLevel `
-                -Action $taskAction `
-                -User $username `
-                -Password $password
+        elseif ($triggers -and ($frequency -eq "weekly")) {
+            try {
+                $taskTrigger = New-ScheduledTaskTrigger -Weekly -DaysOfWeek $dayOfWeek -At $startTime
+            }
+            catch {
+                $module.FailJson("Failed to create scheduled task trigger", $Error[0])
+            }
         }
-        catch {
-            $module.FailJson("Failed to create scheduled task", $Error[0])
+        elseif ($triggers -and ($frequency -eq "weekly") -and ($null -eq $dayOfWeek)) {
+            $module.FailJson("Failed to create scheduled task trigger. Parameter day of week is required if frequency is weekly")
         }
-    }
-    elseif ($runLevel -and $description -and ($state -eq "present")) {
-        try {
-            Register-ScheduledTask `
-                -TaskName $taskName `
-                -Description $description `
-                -RunLevel $runLevel `
-                -Action $taskAction `
-                -User $username `
-                -Password $password
-        }
-        catch {
-            $module.FailJson("Failed to create scheduled task", $Error[0])
-        }
-    }
 
-    # Set Scheduled Task
-    if ($triggers -and ($state -eq "present")) {
-        try {
-            Set-ScheduledTask `
-                -TaskName $taskName `
-                -Trigger $taskTrigger `
-                -User $username `
-                -Password $password
+        # Register Scheduled Task
+        if ((-not $description) -and ($state -eq "present")) {
+            try {
+                Register-ScheduledTask `
+                    -TaskName $taskName `
+                    -Action $taskAction `
+                    -User $username `
+                    -Password $password
+            }
+            catch {
+                $module.FailJson("Failed to create scheduled task", $Error[0])
+            }
+
         }
-        catch {
-            $module.FailJson("Failed to update scheduled task", $Error[0])
+        elseif ($description -and ($state -eq "present")) {
+            try {
+                Register-ScheduledTask `
+                    -TaskName $taskName `
+                    -Description $description `
+                    -Action $taskAction `
+                    -User $username `
+                    -Password $password
+            }
+            catch {
+                $module.FailJson("Failed to create scheduled task", $Error[0])
+            }
         }
-    }
-    elseif ($triggers -and $actions -and ($state -eq "present")) {
-        try {
-            Set-ScheduledTask `
-                -TaskName $taskName `
-                -Trigger $taskTrigger `
-                -Action $taskAction `
-                -User $username `
-                -Password $password
+        elseif ($runLevel -and ($state -eq "present")) {
+            try {
+                Register-ScheduledTask `
+                    -TaskName $taskName `
+                    -RunLevel $runLevel `
+                    -Action $taskAction `
+                    -User $username `
+                    -Password $password
+            }
+            catch {
+                $module.FailJson("Failed to create scheduled task", $Error[0])
+            }
         }
-        catch {
-            $module.FailJson("Failed to update scheduled task", $Error[0])
+        elseif ($runLevel -and $description -and ($state -eq "present")) {
+            try {
+                Register-ScheduledTask `
+                    -TaskName $taskName `
+                    -Description $description `
+                    -RunLevel $runLevel `
+                    -Action $taskAction `
+                    -User $username `
+                    -Password $password
+            }
+            catch {
+                $module.FailJson("Failed to create scheduled task", $Error[0])
+            }
+        }
+
+        # Set Scheduled Task
+        if ($triggers -and ($state -eq "present")) {
+            try {
+                Set-ScheduledTask `
+                    -TaskName $taskName `
+                    -Trigger $taskTrigger `
+                    -User $username `
+                    -Password $password
+            }
+            catch {
+                $module.FailJson("Failed to update scheduled task", $Error[0])
+            }
+        }
+        elseif ($triggers -and $actions -and ($state -eq "present")) {
+            try {
+                Set-ScheduledTask `
+                    -TaskName $taskName `
+                    -Trigger $taskTrigger `
+                    -Action $taskAction `
+                    -User $username `
+                    -Password $password
+            }
+            catch {
+                $module.FailJson("Failed to update scheduled task", $Error[0])
+            }
         }
     }
 }
